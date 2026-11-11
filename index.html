@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Target Auto Spa</title>
+<meta name="description" content="Estética automotiva com padrão de concessionária, dentro do seu condomínio. Agende pelo app.">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Saira+Condensed:ital,wght@1,700;1,800&display=swap">
+<style>
+
+:root{
+  /* Uma só identidade: noite de garagem premium (preto grafite) + dourado Target; seções claras como a "folha branca" do app */
+  --ink:#111114; --ink-2:#1B1B20; --ink-3:#26262D; --line:#34343C;
+  --paper:#F4F3EF; --paper-2:#FDFCF9; --paper-line:#E2E0D8;
+  --gold:#D9B25B; --gold-2:#F0D488; --gold-text:#7E5F1C;
+  --on-dark:#F5F4F0; --soft-dark:#B9B5AB; --soft-light:#4E4E57;
+  --font:"Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+  --display:"Saira Condensed", "Arial Narrow", Arial, sans-serif;
+  --r:20px; --wrap:1180px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--ink);color:var(--on-dark);font-family:var(--font);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+h1,h2,h3{margin:0;line-height:1.08;text-wrap:balance;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold-2);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:16px;top:-60px;background:var(--gold);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;z-index:100;text-decoration:none}
+.skip:focus{top:12px}
+.wrap{width:min(var(--wrap),100% - 40px);margin-inline:auto}
+.eyebrow{font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.light .eyebrow{color:var(--gold-text)}
+.h2{font-size:clamp(32px,4.6vw,56px);font-weight:800}
+.h2 em{font-style:normal;color:var(--gold)}
+.light .h2 em{color:var(--gold-text)}
+.lead{font-size:clamp(18px,1.6vw,21px);color:var(--soft-dark);max-width:62ch}
+.light .lead{color:var(--soft-light)}
+section{padding:clamp(72px,9vw,120px) 0}
+.light{background:var(--paper);color:var(--ink)}
+.sec-head{display:flex;flex-direction:column;gap:16px;margin-bottom:48px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;font-weight:800;font-size:17px;text-decoration:none;border:2px solid transparent;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-gold{background:var(--gold);color:var(--ink)}
+.btn-gold:hover{background:var(--gold-2)}
+.btn-ghost{border-color:rgba(245,244,240,.35);color:var(--on-dark)}
+.btn-ghost:hover{border-color:var(--gold)}
+
+/* header */
+.top{position:sticky;top:0;z-index:50;background:rgba(17,17,20,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;height:72px}
+.top .brand img{height:40px;width:auto}
+.top nav{margin-left:auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.top nav a{text-decoration:none;font-weight:600;font-size:15px;color:var(--soft-dark);padding:10px 12px;border-radius:10px;white-space:nowrap}
+.top nav a:hover{color:var(--on-dark);background:var(--ink-3)}
+.top .btn{min-height:44px;font-size:15px;padding:0 18px}
+@media (max-width:960px){.top nav{display:none}.top .btn{margin-left:auto}}
+
+/* hero */
+.hero{position:relative;padding:0;overflow:hidden;background:#0A0A0C}
+.hero-img{position:absolute;top:0;right:0;width:68%;height:100%;object-fit:cover;object-position:50% 70%;opacity:.95}
+@media (max-width:760px){.hero-img{width:100%;opacity:.45}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0A0A0C 36%,rgba(10,10,12,.7) 52%,rgba(10,10,12,0) 78%),linear-gradient(0deg,#0A0A0C 0%,rgba(10,10,12,0) 30%)}
+.hero .wrap{position:relative;z-index:1;padding:clamp(72px,10vw,128px) 0 clamp(64px,8vw,104px);display:flex;flex-direction:column;gap:26px}
+.chip{display:inline-flex;align-items:center;gap:12px;align-self:flex-start;background:rgba(27,27,32,.8);border:1px solid var(--line);padding:8px 16px 8px 10px;border-radius:999px;font-size:14px;font-weight:700;color:var(--soft-dark)}
+.chip img{height:22px;width:auto}
+.hero h1{font-size:clamp(38px,5.4vw,74px);font-weight:800;max-width:14ch;text-transform:uppercase;letter-spacing:-.03em}
+.hero h1 span{color:var(--gold);display:block}
+.hero .lead{color:#D6D2C8}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:12px}
+.hero-facts div{display:flex;flex-direction:column}
+.hero-facts b{font-size:28px;font-weight:800;color:var(--gold)}
+.hero-facts small{font-size:14px;color:var(--soft-dark)}
+
+/* marquee */
+.marquee{background:var(--gold);color:var(--ink);overflow:hidden;padding:18px 0;border-block:1px solid #B8923F}
+.marquee-track{display:flex;width:max-content;animation:slide 38s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee ul{display:flex;align-items:center;gap:0;margin:0;padding:0;list-style:none}
+.marquee li{font-family:var(--display);font-style:italic;font-weight:800;font-size:clamp(22px,2.6vw,30px);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;display:flex;align-items:center}
+.marquee li::after{content:"";width:12px;height:12px;background:var(--ink);transform:rotate(45deg);margin:0 32px;flex:none}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none}.marquee{overflow-x:auto}.marquee ul[aria-hidden]{display:none}}
+
+/* concessionárias */
+.dealers{background:radial-gradient(ellipse at 80% 0%,#2a2416 0%,var(--ink) 55%)}
+.dealers .big{font-family:var(--display);font-style:italic;font-weight:800;text-transform:uppercase;font-size:clamp(40px,6vw,80px);line-height:.98;letter-spacing:0}
+.dealers .big span{color:var(--gold);display:block}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.badge{position:relative;background:var(--ink-2);border:1.5px solid rgba(217,178,91,.7);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.badge:hover{transform:translateY(-4px);box-shadow:0 24px 48px rgba(0,0,0,.45),0 0 0 1px var(--gold)}
+.badge::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:4px;background:var(--gold);border-radius:0 0 4px 4px;z-index:1}
+.badge .banner{width:100%;aspect-ratio:4.2/1;object-fit:cover}
+.badge .body{padding:8px 24px 28px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.badge .logo{height:56px;width:auto;max-width:80%;object-fit:contain}
+.badge p{font-size:15px;color:var(--soft-dark)}
+@media (max-width:860px){.badges{grid-template-columns:1fr}}
+
+/* antes e depois */
+.ba-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:center}
+.ba{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:16/10;background:#000;user-select:none;touch-action:pan-y;--pos:50%;box-shadow:0 30px 60px rgba(0,0,0,.25)}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 80%;transform:scale(1.55);transform-origin:50% 78%}
+.ba .after img{filter:contrast(1.08) saturate(1.1)}
+.ba .before{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+.ba .before img{filter:saturate(.3) sepia(.45) brightness(.62) contrast(.72) blur(.4px)}
+.ba .grime{position:absolute;inset:0;background:
+  radial-gradient(circle at 22% 70%,rgba(110,86,52,.55) 0 4%,transparent 9%),
+  radial-gradient(circle at 64% 62%,rgba(120,94,60,.45) 0 3%,transparent 8%),
+  radial-gradient(circle at 48% 80%,rgba(95,74,45,.6) 0 6%,transparent 14%),
+  radial-gradient(circle at 80% 76%,rgba(110,88,55,.5) 0 4%,transparent 10%),
+  radial-gradient(circle at 35% 58%,rgba(140,120,90,.35) 0 2%,transparent 6%),
+  repeating-radial-gradient(circle at 50% 55%,rgba(255,255,255,.05) 0 1px,transparent 1px 6px),
+  linear-gradient(180deg,rgba(160,140,110,.22),rgba(90,70,45,.35));mix-blend-mode:multiply}
+.ba .haze{position:absolute;inset:0;background:linear-gradient(0deg,rgba(150,135,110,.28),rgba(150,135,110,.12))}
+.ba .tag{position:absolute;top:16px;padding:6px 14px;border-radius:999px;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.ba .tag.b{left:16px;background:rgba(17,17,20,.8);color:var(--on-dark)}
+.ba .tag.a{right:16px;background:var(--gold);color:var(--ink)}
+.ba .handle{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;background:var(--gold);pointer-events:none}
+.ba .knob{position:absolute;top:50%;left:var(--pos);width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:var(--gold);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.45);pointer-events:none}
+.ba input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.ba input:focus-visible ~ .knob{outline:3px solid #fff;outline-offset:3px}
+.ba-note{font-size:14px;color:var(--soft-light);margin-top:12px}
+.ba-side{display:flex;flex-direction:column;gap:20px}
+.ba-side ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.ba-side li{display:flex;gap:12px;align-items:flex-start}
+.ba-side li svg{flex:none;margin-top:4px}
+.price-pill{align-self:flex-start;background:var(--ink);color:var(--on-dark);border-radius:14px;padding:14px 20px;display:flex;gap:18px;align-items:baseline}
+.price-pill b{color:var(--gold);font-size:26px}
+@media (max-width:900px){.ba-grid{grid-template-columns:1fr}}
+
+/* serviços em destaque */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:14px}
+.svc .ic{width:52px;height:52px;border-radius:14px;background:var(--ink);display:grid;place-items:center}
+.svc h3{font-size:22px;font-weight:800}
+.svc .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:14px;font-weight:700}
+.svc .meta span{background:#EDEBE4;padding:4px 10px;border-radius:999px;color:var(--soft-light)}
+.svc .meta .p{background:var(--ink);color:var(--gold)}
+.svc p{font-size:16px;color:var(--soft-light)}
+.svc ul{margin:0;padding-left:20px;font-size:15px;color:var(--soft-light);display:flex;flex-direction:column;gap:4px}
+.svc.star{background:var(--ink);color:var(--on-dark);border-color:var(--ink)}
+.svc.star p,.svc.star ul{color:var(--soft-dark)}
+.svc.star .meta span{background:var(--ink-3);color:var(--soft-dark)}
+.svc.star .meta .p{background:var(--gold);color:var(--ink)}
+.svc.star .ic{background:var(--gold)}
+@media (max-width:980px){.svc-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.svc-grid{grid-template-columns:1fr}}
+
+/* tabela */
+.prices{margin-top:56px;display:flex;flex-direction:column;gap:12px}
+.prices details{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:16px;overflow:hidden}
+.prices summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;font-weight:800;font-size:19px;min-height:64px}
+.prices summary::-webkit-details-marker{display:none}
+.prices summary small{font-weight:600;color:var(--soft-light);font-size:14px;margin-left:10px}
+.prices summary::after{content:"+";font-size:28px;line-height:1;color:var(--gold-text)}
+.prices details[open] summary::after{content:"–"}
+.tbl{overflow-x:auto}
+.prices table{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:tabular-nums;min-width:520px}
+.prices th{text-align:left;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft-light);padding:10px 24px;border-top:1px solid var(--paper-line)}
+.prices td{padding:14px 24px;border-top:1px solid var(--paper-line)}
+.prices td:nth-child(2){color:var(--soft-light);white-space:nowrap}
+.prices td:last-child,.prices th:last-child{text-align:right;font-weight:800;white-space:nowrap}
+.prices .obs{display:block;font-size:14px;color:var(--gold-text);font-weight:600}
+.table-note{font-size:14px;color:var(--soft-light)}
+
+/* passos */
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;counter-reset:s;padding:0;margin:0;list-style:none}
+.steps li{border-top:3px solid var(--gold);padding-top:20px;display:flex;flex-direction:column;gap:8px}
+.steps li::before{counter-increment:s;content:"0" counter(s);font-family:var(--display);font-style:italic;font-weight:800;font-size:40px;color:var(--gold);line-height:1}
+.steps h3{font-size:20px;font-weight:800}
+.steps p{font-size:16px;color:var(--soft-dark)}
+@media (max-width:1000px){.steps{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.steps{grid-template-columns:1fr}}
+
+/* app */
+.phones{display:flex;gap:28px;overflow-x:auto;padding:8px 4px 24px;scroll-snap-type:x mandatory}
+.phone{flex:0 0 auto;width:250px;scroll-snap-align:start;display:flex;flex-direction:column;gap:14px}
+.phone .frame{background:#0C0C0F;padding:8px;border-radius:38px;border:2px solid #3A3A42;box-shadow:0 24px 48px rgba(10,10,12,.25)}
+.phone .frame img{border-radius:30px;width:100%;aspect-ratio:591/1280;object-fit:cover;object-position:top}
+.phone h3{font-size:18px;font-weight:800}
+.phone p{font-size:15px;color:var(--soft-light)}
+.scroll-hint{font-size:14px;color:var(--soft-light);margin-top:4px}
+
+/* split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.split .media{border-radius:var(--r);overflow:hidden;position:relative}
+.split .media img{width:100%;aspect-ratio:16/11;object-fit:cover}
+.split .media figcaption{position:absolute;left:14px;bottom:12px;font-size:13px;background:rgba(17,17,20,.8);padding:4px 10px;border-radius:8px;color:var(--soft-dark)}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+.checks li{display:grid;grid-template-columns:28px 1fr;gap:14px}
+.checks b{display:block;font-size:19px}
+.checks span{color:var(--soft-dark);font-size:16px}
+.light .checks span{color:var(--soft-light)}
+@media (max-width:900px){.split{grid-template-columns:1fr}}
+
+/* consumo */
+.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:12px}
+.card .ic{width:52px;height:52px;border-radius:14px;background:var(--ink);display:grid;place-items:center}
+.card h3{font-size:20px;font-weight:800}
+.card p{font-size:16px;color:var(--soft-light)}
+.banner-strip{margin-top:24px;background:var(--ink);color:var(--on-dark);border-radius:16px;padding:24px 28px;display:flex;gap:16px;align-items:center;font-weight:700;font-size:18px}
+@media (max-width:980px){.cards4{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.cards4{grid-template-columns:1fr}}
+
+/* repasse */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.tier{background:var(--ink-2);border:1px solid var(--line);border-radius:24px;padding:40px;display:flex;flex-direction:column;gap:6px}
+.tier .pct{font-size:clamp(88px,12vw,150px);font-weight:800;line-height:1;letter-spacing:-.05em;color:var(--gold)}
+.tier .lbl{font-size:14px;font-weight:800;letter-spacing:.14em;color:var(--soft-dark)}
+.tier p{font-size:20px;font-weight:600}
+.tier.hl{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.tier.hl .pct{color:var(--ink)}.tier.hl .lbl{color:#4A3A14}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;padding:0;list-style:none;counter-reset:f}
+.flow li{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:6px;position:relative}
+.flow li::before{counter-increment:f;content:"0" counter(f);color:var(--gold);font-weight:800}
+.flow b{font-size:18px}
+.flow span{font-size:15px;color:var(--soft-dark)}
+@media (max-width:860px){.tiers{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}}
+
+/* benefício */
+.benefit{background:var(--gold);color:var(--ink)}
+.benefit .tag{display:inline-block;background:var(--ink);color:var(--gold);padding:10px 20px;border-radius:999px;font-weight:800;letter-spacing:.12em;font-size:15px;text-transform:uppercase}
+.benefit h2{font-size:clamp(34px,5vw,64px);font-weight:800;margin:22px 0 36px;max-width:20ch}
+.benefit .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.benefit .two div{background:var(--ink);color:var(--on-dark);border-radius:var(--r);padding:30px;display:flex;flex-direction:column;gap:8px}
+.benefit .two h3{font-size:28px}
+.benefit .two p{color:var(--soft-dark);font-size:16px}
+.benefit .closing{margin-top:28px;font-size:19px;font-weight:700;max-width:70ch;color:#2A2210}
+@media (max-width:700px){.benefit .two{grid-template-columns:1fr}}
+
+/* contato */
+.contact{position:relative;overflow:hidden;text-align:center}
+.contact > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18}
+.contact .wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px}
+.contact .logo{width:min(420px,80%)}
+.contact .mission{color:var(--soft-dark);max-width:60ch;font-size:17px}
+.contact h2{font-size:clamp(30px,4.4vw,52px);font-weight:800}
+.contact h2 em{font-style:normal;color:var(--gold)}
+.contacts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.contacts a,.contacts span{display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:rgba(217,178,91,.14);border:1.5px solid rgba(217,178,91,.6);color:var(--gold-2);font-weight:800;font-size:18px;text-decoration:none}
+footer{border-top:1px solid var(--line);padding:28px 0;font-size:14px;color:var(--soft-dark)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer img{height:30px;width:auto}
+
+.steps-light p{color:var(--soft-light)}
+#ba img{transform:none;object-position:center}
+
+/* --- acréscimos --- */
+.btn-wa{background:var(--gold);color:var(--ink);box-shadow:0 0 0 0 rgba(217,178,91,0),0 0 24px rgba(217,178,91,.45)}
+.btn-wa:hover{background:var(--gold-2);box-shadow:0 0 36px rgba(240,212,136,.7)}
+.btn-wa svg{flex:none}
+.btn-lg{min-height:60px;padding:0 32px;font-size:18px}
+.svc .btn{align-self:flex-start;margin-top:auto;min-height:46px;font-size:15px;padding:0 20px}
+.svc .tagline{font-size:14px;font-weight:800;color:var(--gold-text);letter-spacing:.04em}
+.svc.star .tagline{color:var(--gold)}
+.cta-band{background:var(--ink);color:var(--on-dark);border-radius:24px;padding:clamp(28px,4vw,44px);display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:40px}
+.cta-band h3{font-size:clamp(24px,2.6vw,32px);font-weight:800;max-width:24ch}
+.cta-band p{color:var(--soft-dark);font-size:16px;margin-top:6px}
+.catalog{margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.catalog div{background:var(--paper-2);border:1px solid var(--paper-line);border-radius:16px;padding:22px}
+.catalog h4{margin:0 0 10px;font-size:17px;font-weight:800;display:flex;justify-content:space-between;gap:10px}
+.catalog h4 small{font-weight:700;color:var(--gold-text);font-size:13px}
+.catalog ul{margin:0;padding-left:18px;font-size:15px;color:var(--soft-light);display:flex;flex-direction:column;gap:4px}
+/* níveis */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.lvl{border-radius:var(--r);padding:30px;display:flex;flex-direction:column;gap:14px;background:var(--ink-2);border:1px solid var(--line)}
+.lvl .medal{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:22px;color:var(--ink)}
+.lvl h3{font-size:28px;font-weight:800}
+.lvl p{color:var(--soft-dark);font-size:16px}
+.lvl .bars{display:flex;align-items:flex-end;gap:6px;height:40px}
+.lvl .bars i{display:block;width:14px;border-radius:4px;background:var(--ink-3)}
+.lvl .bars i:nth-child(1){height:16px}.lvl .bars i:nth-child(2){height:26px}.lvl .bars i:nth-child(3){height:38px}
+.lvl .bars i.on{background:var(--gold)}
+.lvl small{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.lvl.gold{background:linear-gradient(160deg,#2b2412,#141417 60%);border-color:var(--gold)}
+@media (max-width:860px){.levels{grid-template-columns:1fr}}
+/* condomínios */
+.condo{background:radial-gradient(ellipse at 10% 0%,#2a2416 0%,var(--ink) 55%)}
+.condo .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:8px}
+.condo .item{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:8px}
+.condo .item b{font-size:19px}
+.condo .item span{color:var(--soft-dark);font-size:15px}
+@media (max-width:980px){.condo .grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.condo .grid{grid-template-columns:1fr}}
+/* rodapé + formulário */
+.site-foot{background:#0B0B0D;border-top:1px solid var(--line);padding:clamp(64px,8vw,96px) 0 32px}
+.foot-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px}
+.foot-info{display:flex;flex-direction:column;gap:22px}
+.foot-info .logo{height:48px;width:auto;align-self:center}
+.foot-info p{color:var(--soft-dark);font-size:16px;max-width:44ch}
+.contact-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.contact-list li{display:flex;gap:14px;align-items:center}
+.contact-list .ci{width:44px;height:44px;border-radius:12px;background:var(--ink-3);display:grid;place-items:center;flex:none}
+.contact-list small{display:block;font-size:13px;color:var(--soft-dark);font-weight:600}
+.contact-list a,.contact-list strong{font-size:18px;font-weight:800;text-decoration:none;color:var(--on-dark)}
+.contact-list a:hover{color:var(--gold-2)}
+form.msg{background:var(--ink-2);border:1px solid var(--line);border-radius:24px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:16px}
+form.msg h2{font-size:clamp(24px,2.6vw,32px);font-weight:800}
+form.msg .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+form.msg label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:var(--soft-dark)}
+form.msg input,form.msg textarea{font:inherit;font-size:16px;color:var(--on-dark);background:var(--ink);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;min-height:50px}
+form.msg textarea{min-height:130px;resize:vertical}
+form.msg input:focus,form.msg textarea:focus{outline:none;border-color:var(--gold)}
+form.msg button{border:0;cursor:pointer;justify-content:center}
+.form-status{font-size:15px;min-height:22px;color:var(--gold-2)}
+.form-status.err{color:#FF9B8A}
+@media (max-width:900px){.foot-grid{grid-template-columns:1fr}form.msg .row{grid-template-columns:1fr}}
+.legal{margin-top:48px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--soft-dark)}
+.wa-float{position:fixed;right:20px;bottom:20px;z-index:60;width:62px;height:62px;border-radius:50%;background:var(--gold);display:grid;place-items:center;box-shadow:0 0 28px rgba(217,178,91,.6),0 10px 30px rgba(0,0,0,.4);transition:transform .15s}
+.wa-float:hover{transform:scale(1.06)}
+/* catálogo com abas */
+.all-btn{display:flex;justify-content:center;margin-top:36px}
+.all-btn .btn{border:2px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer;font-family:inherit}
+.all-btn .btn:hover{background:var(--ink);color:var(--gold)}
+.all{margin-top:32px;background:var(--paper-2);border:1px solid var(--paper-line);border-radius:24px;padding:clamp(20px,3vw,32px)}
+.all[hidden]{display:none}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.tabs button{font:inherit;font-size:15px;font-weight:700;min-height:46px;padding:0 18px;border-radius:999px;border:1.5px solid var(--paper-line);background:#fff;color:var(--soft-light);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--gold);border-color:var(--ink)}
+.panel{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.panel[hidden]{display:none}
+.panel div{border:1px solid var(--paper-line);border-radius:14px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:4px}
+.panel b{font-size:16px}
+.panel span{font-size:14px;color:var(--soft-light)}
+.panel .note{grid-column:1/-1;background:transparent;border:0;padding:4px 0 0;font-size:14px;color:var(--gold-text);font-weight:700}
+.svc-grid.four{grid-template-columns:repeat(4,1fr)}
+@media (max-width:1080px){.svc-grid.four{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.svc-grid.four{grid-template-columns:1fr}}
+/* carrossel automático do app */
+.reel{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);padding:8px 0 16px}
+.reel-track{display:flex;gap:28px;width:max-content;animation:reel 60s linear infinite;animation-direction:reverse}
+.reel:hover .reel-track{animation-play-state:paused}
+.reel .phone{width:230px}
+@keyframes reel{to{transform:translateX(calc(-50% - 14px))}}
+@media (prefers-reduced-motion:reduce){.reel-track{animation:none}.reel{overflow-x:auto}}
+/* rodapé centralizado */
+.site-foot .wrap{display:block}
+.site-foot img{height:auto}
+.site-foot form.msg h2{color:var(--on-dark)}
+.foot-stack{display:flex;flex-direction:column;align-items:center;gap:56px}
+.foot-stack form.msg{width:min(720px,100%)}
+.foot-stack form.msg h2,.foot-stack form.msg > p{text-align:center}
+.foot-contacts{width:100%;display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center}
+.foot-contacts > p{color:var(--soft-dark);font-size:16px;max-width:56ch}
+.foot-contacts .contact-list{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:28px}
+.foot-contacts .contact-list li{text-align:left}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Target Auto Spa, início"><img src="img/logo.png" alt="Target Auto Spa"></a>
+    <nav aria-label="Seções">
+      <a href="#concessionarias">Credibilidade</a>
+      <a href="#antes-depois">Antes e depois</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#niveis">Níveis</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#aplicativo">Aplicativo</a>
+      <a href="#condominios">Para condomínios</a>
+    </nav>
+    <a class="btn btn-gold" href="https://wa.me/5521965139999?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20Target" target="_blank" rel="noopener">Fale conosco</a>
+  </div>
+</header>
+
+<main id="conteudo">
+
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <img class="hero-img" src="img/hero.jpg" alt="">
+  <div class="wrap">
+    <p class="chip"><img src="img/simbolo.png" alt="">Estética automotiva residencial</p>
+    <h1 id="hero-title">Qualidade de concessionária. <span>Agora dentro do seu condomínio.</span></h1>
+    <p class="lead">Seu carro cuidado por especialistas sem você sair do prédio. Você agenda pelo app e a equipe Target cuida do resto.</p>
+    <div class="cta">
+      <a class="btn btn-wa btn-lg" href="https://wa.me/5521965139999?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20Target" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn btn-ghost btn-lg" href="#servicos">Conhecer os serviços</a>
+    </div>
+    <div class="hero-facts">
+      <div><b>34</b><small>serviços automotivos</small></div>
+      <div><b>360º</b><small>checklist com fotos</small></div>
+      <div><b>4 anos</b><small>de garantia na ionização</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" role="region" aria-label="Características da Target">
+  <div class="marquee-track">
+    <ul><li>Padrão de concessionária</li><li>Produtos biodegradáveis</li><li>Sem soda cáustica</li><li>Checklist 360º com fotos</li><li>Pagamento seguro no app</li><li>Agendamento em minutos</li><li>Garantia de até 4 anos</li><li>Sem sair do prédio</li><li>Equipe especializada</li></ul>
+    <ul aria-hidden="true"><li>Padrão de concessionária</li><li>Produtos biodegradáveis</li><li>Sem soda cáustica</li><li>Checklist 360º com fotos</li><li>Pagamento seguro no app</li><li>Agendamento em minutos</li><li>Garantia de até 4 anos</li><li>Sem sair do prédio</li><li>Equipe especializada</li></ul>
+  </div>
+</div>
+
+<section class="dealers" id="concessionarias" aria-labelledby="dealers-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Experiência e credibilidade</p>
+      <h2 class="big" id="dealers-title">Já imaginou ter no seu prédio <span>o padrão de uma concessionária?</span></h2>
+      <p class="lead">A Target está presente em grandes grupos de concessionárias. É esse mesmo padrão de qualidade, confiança e garantia que levamos até a garagem do seu condomínio.</p>
+    </div>
+    <div class="badges">
+      <article class="badge">
+        <img class="banner" src="img/b_raion.png" alt="Vitrine do Grupo Raion com carros e motos de várias marcas">
+        <div class="body"><img class="logo" src="img/raion.png" alt="Grupo Raion"><p>Mitsubishi, Nissan, Royal Enfield, Suzuki, Zeekr, CFMoto e SYM</p></div>
+      </article>
+      <article class="badge">
+        <img class="banner" src="img/b_potenza.png" alt="Frente de um Fiat branco">
+        <div class="body"><img class="logo" src="img/potenza.png" alt="Potenza"><p>Fiat</p></div>
+      </article>
+      <article class="badge">
+        <img class="banner" src="img/b_roma.png" alt="Vitrine do Grupo Roma com a linha de veículos">
+        <div class="body"><img class="logo" src="img/roma.png" alt="Grupo Roma"><p>Ford, Jeep, RAM, Citroën, Peugeot, Fiat, Toyota, VW, Renault e Yamaha</p></div>
+      </article>
+    </div>
+    <div class="cta-band" style="background:var(--ink-2);border:1px solid var(--line)">
+      <div><h3>Quer esse padrão no seu carro?</h3><p>Fale com a nossa equipe e tire suas dúvidas em minutos.</p></div>
+      <a class="btn btn-wa btn-lg" href="https://wa.me/5521965139999?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20Target" target="_blank" rel="noopener">Quero falar com a Target</a>
+    </div>
+  </div>
+</section>
+
+<section class="light" id="antes-depois" aria-labelledby="ba-title">
+  <div class="wrap ba-grid">
+    <div>
+      <div class="ba" id="ba" style="aspect-ratio:2/1">
+        <div class="after"><img src="img/vit_depois.jpg" alt="Depois: capô com brilho espelhado, refletindo o ambiente com nitidez"></div>
+        <div class="before"><img src="img/vit_antes.jpg" alt="Antes: pintura opaca, com marcas e riscos finos visíveis"></div>
+        <span class="tag b">Antes</span><span class="tag a">Depois</span>
+        <div class="handle"></div>
+        <input type="range" id="ba-range" min="0" max="100" value="50" aria-label="Arraste para comparar o antes e o depois da vitrificação">
+        <div class="knob" aria-hidden="true"><svg width="30" height="18" viewBox="0 0 30 18" fill="none" stroke="#111114" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2 2 9l7 7M21 2l7 7-7 7"/></svg></div>
+      </div>
+      <p class="ba-note">Imagem ilustrativa. Arraste a barra ou use as setas do teclado.</p>
+    </div>
+    <div class="ba-side">
+      <p class="eyebrow">Antes e depois</p>
+      <h2 class="h2" id="ba-title"><em>Vitrificação</em> de pintura</h2>
+      <p class="lead">Uma camada protetora de alta durabilidade que deixa a pintura com brilho espelhado e mais resistente ao dia a dia.</p>
+      <ul>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7E5F1C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Brilho profundo e reflexo nítido</li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7E5F1C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Proteção contra sol, chuva ácida e sujeira</li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7E5F1C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Lavagens mais fáceis e rápidas</li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7E5F1C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Garantia de 2 anos na pintura</li>
+      </ul>
+      <a class="btn btn-wa btn-lg" style="align-self:flex-start" href="https://wa.me/5521965139999?text=Ol%C3%A1%21%20Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20vitrifica%C3%A7%C3%A3o%20da%20Target." target="_blank" rel="noopener">Quero vitrificar meu carro</a>
+    </div>
+  </div>
+</section>
+
+<section class="light" id="servicos" aria-labelledby="svc-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Principais serviços</p>
+      <h2 class="h2" id="svc-title">Seu carro merece <em>mais que uma lavagem</em></h2>
+      <p class="lead">Técnicas de concessionária, produtos biodegradáveis e garantia de verdade. Conheça os serviços mais procurados.</p>
+    </div>
+    <div class="svc-grid four">
+      <article class="svc">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4.5 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-6.5 6-11z"/></svg></div>
+        <p class="tagline">Lavagem de rotina</p>
+        <h3>Banho</h3>
+        <p>O cuidado da semana, para o carro estar sempre apresentável.</p>
+        <ul><li>Lavagem e secagem</li><li>Aspiração interna</li><li>Sem soda cáustica</li></ul>
+        <a class="btn btn-wa" href="https://wa.me/5521965139999?text=Ol%C3%A1%21%20Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20servi%C3%A7o%20Banho%20da%20Target." target="_blank" rel="noopener" aria-label="Quero Banho, falar no WhatsApp">Quero esse serviço</a>
+      </article>
+      <article class="svc">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z"/></svg></div>
+        <p class="tagline">Interior como novo</p>
+        <h3>Higienização de Interior</h3>
+        <p>Limpeza profunda de bancos, forros, painel e acabamentos.</p>
+        <ul><li>Bancos, painel e acabamentos</li><li>Opção com limpeza de carpete</li></ul>
+        <a class="btn btn-wa" href="https://wa.me/5521965139999?text=Ol%C3%A1%21%20Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20servi%C3%A7o%20Higieniza%C3%A7%C3%A3o%20de%20Interior%20da%20Target." target="_blank" rel="noopener" aria-label="Quero Higienização de Interior, falar no WhatsApp">Quero esse serviço</a>
+      </article>
+      <article class="svc star">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111114" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div>
+        <p class="tagline">Garantia de 2 anos</p>
+        <h3>Vitrificação</h3>
+        <p>Camada protetora de alta durabilidade, com brilho espelhado.</p>
+        <ul><li>Lavagem geral inclusa</li><li>Garantia de 2 anos na pintura</li></ul>
+        <a class="btn btn-wa" href="https://wa.me/5521965139999?text=Ol%C3%A1%21%20Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20servi%C3%A7o%20Vitrifica%C3%A7%C3%A3o%20da%20Target." target="_blank" rel="noopener" aria-label="Quero Vitrificação, falar no WhatsApp">Quero esse serviço</a>
+      </article>
+      <article class="svc star">
+        <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111114" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div>
+        <p class="tagline">Garantia de 4 anos</p>
+        <h3>Ionização de Pintura</h3>
+        <p>A proteção mais completa da Target, em todas as superfícies.</p>
+        <ul><li>Lavagem geral inclusa</li><li>Garantia de 4 anos</li></ul>
+        <a class="btn btn-wa" href="https://wa.me/5521965139999?text=Ol%C3%A1%21%20Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20servi%C3%A7o%20Ioniza%C3%A7%C3%A3o%20de%20Pintura%20da%20Target." target="_blank" rel="noopener" aria-label="Quero Ionização de Pintura, falar no WhatsApp">Quero esse serviço</a>
+      </article>
+    </div>
+    <div class="all-btn"><button class="btn btn-lg" type="button" id="all-toggle" aria-expanded="false" aria-controls="all">Ver todos os serviços</button></div>
+    <div class="all" id="all" hidden>
+      <div class="tabs" role="tablist" aria-label="Categorias de serviço"><button type="button" role="tab" id="tab-lavagem" aria-controls="p-lavagem" aria-selected="true" tabindex="0">Lavagem</button><button type="button" role="tab" id="tab-estetica" aria-controls="p-estetica" aria-selected="false" tabindex="-1">Estética e polimento</button><button type="button" role="tab" id="tab-protecao" aria-controls="p-protecao" aria-selected="false" tabindex="-1">Proteção e vitrificação</button><button type="button" role="tab" id="tab-higienizacao" aria-controls="p-higienizacao" aria-selected="false" tabindex="-1">Higienização</button><button type="button" role="tab" id="tab-insulfilm" aria-controls="p-insulfilm" aria-selected="false" tabindex="-1">Insulfilm e películas</button></div>
+      <div class="panel" role="tabpanel" id="p-lavagem" aria-labelledby="tab-lavagem"><div><b>Banho Básico</b><span>Lavagem externa e secagem.</span></div><div><b>Banho</b><span>Lavagem, secagem, aspiração e produtos específicos.</span></div><div><b>Banho Geral</b><span>Lavagem completa com limpeza do motor.</span></div><div><b>Combo 4 Banhos</b><span>Quatro banhos com 10% de desconto.</span></div></div>
+      <div class="panel" role="tabpanel" id="p-estetica" aria-labelledby="tab-estetica" hidden><div><b>Enceramento + Lavagem Geral</b><span>Proteção e brilho com cera.</span></div><div><b>Espelhamento da Pintura + Lavagem Geral</b><span>Brilho intenso e reflexo nítido.</span></div><div><b>Polimento + Lavagem Geral</b><span>Correção de marcas e riscos leves.</span></div><div><b>Polimento com Cristalização + Lavagem Geral</b><span>Polimento com camada de proteção.</span></div><div><b>Polimento de Faróis Dianteiros</b><span>Faróis transparentes de novo.</span></div><div><b>Remoção de Chuva Ácida</b><span>Remove manchas na pintura e nos vidros.</span></div><div><b>Remoção de Chuva Ácida + Cristalização</b><span>Remoção de manchas com proteção.</span></div><div><b>Descontaminação de Pintura</b><span>Remove resíduos presos à pintura.</span></div></div>
+      <div class="panel" role="tabpanel" id="p-protecao" aria-labelledby="tab-protecao" hidden><div><b>Ionização de Pintura + Lavagem Geral</b><span>Garantia de 4 anos, todas as superfícies.</span></div><div><b>Vitrificação + Lavagem Geral</b><span>Garantia de 2 anos na pintura.</span></div><div><b>Manutenção da Vitrificação</b><span>Mantém a proteção em dia.</span></div><div><b>Vitrificação de Vidro</b><span>Mais visibilidade na chuva.</span></div><div><b>Vitrificação de Banco de Couro + Higienização</b><span>Couro limpo e protegido.</span></div><div><b>Vitrificação de Motor</b><span>Proteção do compartimento do motor.</span></div></div>
+      <div class="panel" role="tabpanel" id="p-higienizacao" aria-labelledby="tab-higienizacao" hidden><div><b>Bio Higienização</b><span>Higienização interna com produtos biodegradáveis.</span></div><div><b>Higienização de Interior</b><span>Limpeza profunda de bancos e acabamentos.</span></div><div><b>Higienização de Interior com Limpeza de Carpete</b><span>Interior completo, carpete incluído.</span></div><div><b>Hidratação de Bancos de Couro</b><span>Couro macio e sem ressecamento.</span></div><div><b>Impermeabilização</b><span>Proteção de bancos e forros.</span></div><div><b>Pacote Proteção de Couro</b><span>Cuidado completo para bancos de couro.</span></div></div>
+      <div class="panel" role="tabpanel" id="p-insulfilm" aria-labelledby="tab-insulfilm" hidden><div><b>Insulfilm Poliéster com Garantia</b><span>Traseira e laterais.</span></div><div><b>Insulfilm Poliéster para Brisa</b><span>Faixa no para-brisa.</span></div><div><b>Insulfilm Nano Cerâmica Parabrisa</b><span>Proteção térmica no para-brisa.</span></div><div><b>Insulfilm Nano Cerâmica Premium</b><span>Sem ou com para-brisa.</span></div><div><b>Insulfilm Nano Carbon Premium</b><span>Sem ou com para-brisa.</span></div><div><b>Película de Segurança PS2 e PS4</b><span>Mais resistência aos vidros.</span></div><div><b>Protetor de Vidro PS8</b><span>A proteção mais alta para os vidros.</span></div><div><b>Retirada de Insulfilm</b><span>Remoção da película antiga.</span></div><p class="note">Agendamento com 36 horas de antecedência.</p></div>
+    </div>
+    <div class="cta-band">
+      <div><h3>Não sabe qual serviço escolher?</h3><p>Conte como está o seu carro e indicamos o cuidado certo.</p></div>
+      <a class="btn btn-wa btn-lg" href="https://wa.me/5521965139999?text=Ol%C3%A1%21%20Quero%20um%20or%C3%A7amento%20dos%20servi%C3%A7os%20da%20Target%20para%20o%20meu%20carro." target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section id="niveis" aria-labelledby="lvl-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Níveis e descontos</p>
+      <h2 class="h2" id="lvl-title">Quanto mais cuida, <em>mais economiza</em></h2>
+      <p class="lead">No app, cada serviço finalizado conta pontos para o seu nível. Os descontos são progressivos: quanto maior o nível, maior o desconto. O nível é atualizado automaticamente, considerando os últimos 90 dias.</p>
+    </div>
+    <div class="levels">
+      <article class="lvl"><div class="medal" style="background:#B07A4A">1</div><h3>Bronze</h3><p>O ponto de partida. Todo cliente começa aqui no primeiro agendamento.</p><div class="bars" aria-hidden="true"><i class="on"></i><i></i><i></i></div><small>Nível inicial</small></article>
+      <article class="lvl"><div class="medal" style="background:#A8ACB4">2</div><h3>Prata</h3><p>Para quem cuida do carro com frequência. Os descontos começam a crescer.</p><div class="bars" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></div><small>Desconto progressivo</small></article>
+      <article class="lvl gold"><div class="medal" style="background:#D9B25B">3</div><h3>Ouro</h3><p>O nível dos clientes mais fiéis, com as melhores condições do app.</p><div class="bars" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></div><small>Maior desconto</small></article>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona" class="light" aria-labelledby="how-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Como funciona</p>
+      <h2 class="h2" id="how-title">Do agendamento à entrega, <em>em seis passos</em></h2>
+    </div>
+    <ol class="steps steps-light">
+      <li><h3>Acesso</h3><p>Entre no app com e-mail, Google ou Apple e escolha o seu condomínio.</p></li>
+      <li><h3>Escolha</h3><p>Veja os serviços, a duração e tudo o que está incluso.</p></li>
+      <li><h3>Agenda</h3><p>Escolha dia e horário livres e informe modelo e placa.</p></li>
+      <li><h3>Pagamento</h3><p>Pague por Pix ou cartão no app, em ambiente seguro.</p></li>
+      <li><h3>Atendimento</h3><p>A equipe Target faz o serviço no espaço da garagem.</p></li>
+      <li><h3>Entrega</h3><p>Acompanhe o status, veja as fotos e avalie o serviço.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="light" id="aplicativo" aria-labelledby="app-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">O aplicativo</p>
+      <h2 class="h2" id="app-title">Seu carro cuidado, <em>sem sair do prédio</em></h2>
+      <p class="lead">Telas reais do aplicativo Target Auto Spa. Tudo o que você precisa, a poucos toques.</p>
+    </div>
+    <div class="reel" role="region" aria-label="Telas do aplicativo">
+      <div class="reel-track">
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_servicos.jpg" alt="Lista de serviços"></div><h3>Escolha</h3><p>Catálogo completo, por categoria.</p></figure>
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_detalhe.jpg" alt="Detalhe de um serviço"></div><h3>Consulte</h3><p>Saiba o que está incluso.</p></figure>
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_upsell.jpg" alt="Sugestão de serviços complementares"></div><h3>Complete</h3><p>Adicione serviços na mesma visita.</p></figure>
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_agenda.jpg" alt="Escolha de dia e horário"></div><h3>Agende</h3><p>Dia, horário, modelo e placa.</p></figure>
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_confirmado.jpg" alt="Agendamento confirmado e pagamento"></div><h3>Pague</h3><p>Pix ou cartão, em ambiente seguro.</p></figure>
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_andamento.jpg" alt="Andamento do serviço"></div><h3>Acompanhe</h3><p>Status do serviço em tempo real.</p></figure>
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_checklist.jpg" alt="Checklist 360º com fotos"></div><h3>Confira</h3><p>Fotos do carro na chegada e na saída.</p></figure>
+<figure class="phone" style="margin:0"><div class="frame"><img src="img/s_perfil916.jpg" alt="Perfil com níveis Bronze, Prata e Ouro" style="aspect-ratio:591/1051"></div><h3>Evolua</h3><p>Suba de nível e ganhe mais desconto.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_servicos.jpg" alt=""></div><h3>Escolha</h3><p>Catálogo completo, por categoria.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_detalhe.jpg" alt=""></div><h3>Consulte</h3><p>Saiba o que está incluso.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_upsell.jpg" alt=""></div><h3>Complete</h3><p>Adicione serviços na mesma visita.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_agenda.jpg" alt=""></div><h3>Agende</h3><p>Dia, horário, modelo e placa.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_confirmado.jpg" alt=""></div><h3>Pague</h3><p>Pix ou cartão, em ambiente seguro.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_andamento.jpg" alt=""></div><h3>Acompanhe</h3><p>Status do serviço em tempo real.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_checklist.jpg" alt=""></div><h3>Confira</h3><p>Fotos do carro na chegada e na saída.</p></figure>
+<figure class="phone" style="margin:0" aria-hidden="true"><div class="frame"><img src="img/s_perfil916.jpg" alt="" style="aspect-ratio:591/1051"></div><h3>Evolua</h3><p>Suba de nível e ganhe mais desconto.</p></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="ctrl-title">
+  <div class="wrap split">
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <p class="eyebrow">Segurança e controle</p>
+      <h2 class="h2" id="ctrl-title">Cada serviço <em>registrado e rastreável</em></h2>
+      <ul class="checks">
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b>Checklist 360º</b><span>8 fotos na chegada e 8 na saída: frente, traseira, laterais, painel, bancos, porta-malas e rodas.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b>Data e hora na imagem</b><span>Prova do estado do veículo, registrada pela equipe no próprio app.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b>Produtos biodegradáveis</b><span>Sem soda cáustica, seguros para a pintura e para o seu condomínio.</span></div></li>
+        <li><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><div><b>Avaliação de cada atendimento</b><span>Você avalia o serviço, e a qualidade é medida o tempo todo.</span></div></li>
+      </ul>
+      <a class="btn btn-wa btn-lg" style="align-self:flex-start" href="https://wa.me/5521965139999?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20Target" target="_blank" rel="noopener">Agendar meu primeiro serviço</a>
+    </div>
+    <div class="phones" style="justify-content:center;overflow:visible">
+      <figure class="phone" style="margin:0;width:280px"><div class="frame"><img src="img/s_checklist.jpg" alt="Checklist do veículo com 8 fotos de chegada e de saída"></div></figure>
+    </div>
+  </div>
+</section>
+
+<section class="condo" id="condominios" aria-labelledby="condo-title">
+  <div class="wrap">
+    <div class="split" style="align-items:start">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <p class="eyebrow">Para síndicos e administradoras</p>
+        <h2 class="h2" id="condo-title">Leve a Target para <em>o seu condomínio</em></h2>
+        <p class="lead">Um espaço de estética automotiva na garagem, sem custo de consumo e sem trabalho extra para a administração.</p>
+        <a class="btn btn-wa btn-lg" style="align-self:flex-start" href="https://wa.me/5521965139999?text=Ol%C3%A1%21%20Sou%20do%20condom%C3%ADnio%20e%20quero%20levar%20a%20Target%20para%20o%20nosso%20pr%C3%A9dio." target="_blank" rel="noopener">Quero a Target no meu condomínio</a>
+      </div>
+      <figure class="media" style="margin:0"><img src="img/vagas.jpg" alt="Espaço de operação com cinco boxes de atendimento na garagem"><figcaption>Imagem ilustrativa</figcaption></figure>
+    </div>
+    <div class="grid" style="margin-top:40px">
+      <div class="item"><b>Espaço compacto</b><span>A operação ocupa uma área de poucas vagas na garagem, organizada e sinalizada.</span></div>
+      <div class="item"><b>Água e energia medidas</b><span>Hidrômetro e medidor próprios. O consumo da operação é devolvido ao condomínio.</span></div>
+      <div class="item"><b>Participação no faturamento</b><span>O condomínio recebe um repasse sobre o faturamento da operação.</span></div>
+      <div class="item"><b>Gestão transparente</b><span>Relatório periódico de atendimentos e avaliações, e um gerente Target responsável.</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot" id="contato">
+  <div class="wrap">
+    <div class="foot-stack">
+      <form class="msg" id="form" novalidate>
+        <h2>Envie uma mensagem</h2>
+        <p style="color:var(--soft-dark);font-size:15px">Respondemos pelo e-mail que você informar.</p>
+        <div class="row">
+          <label for="f-nome">Seu nome<input id="f-nome" name="nome" autocomplete="name" required></label>
+          <label for="f-email">Seu e-mail<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+        </div>
+        <label for="f-tel">Telefone (opcional)<input id="f-tel" name="telefone" type="tel" autocomplete="tel"></label>
+        <label for="f-msg">Mensagem<textarea id="f-msg" name="mensagem" required></textarea></label>
+        <button class="btn btn-gold btn-lg" type="submit">Enviar mensagem</button>
+        <p class="form-status" id="f-status" role="status" aria-live="polite"></p>
+      </form>
+      <div class="foot-contacts">
+        <img class="logo" src="img/logo.png" alt="Target Auto Spa" style="height:48px;width:auto">
+        <p>Estética automotiva com padrão de concessionária, dentro do seu condomínio, com qualidade, segurança, transparência e comodidade.</p>
+        <ul class="contact-list">
+          <li><span class="ci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg></span><div><small>WhatsApp</small><a href="https://wa.me/5521965139999?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20Target" target="_blank" rel="noopener">(21) 96513-9999</a></div></li>
+          <li><span class="ci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><div><small>E-mail</small><a href="mailto:comercial@targetautospa.com.br">comercial@targetautospa.com.br</a></div></li>
+          <li><span class="ci"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D9B25B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span><div><small>Responsável comercial</small><strong>Aleksander Correia</strong></div></li>
+        </ul>
+        <a class="btn btn-wa btn-lg" href="https://wa.me/5521965139999?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20Target" target="_blank" rel="noopener">Fale conosco</a>
+      </div>
+    </div>
+<span>© 2026 Target Auto Spa · Automotivo residencial</span><span>Imagens do espaço e do antes e depois são ilustrativas.</span></div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5521965139999?text=Quero%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20servi%C3%A7os%20da%20Target" target="_blank" rel="noopener" aria-label="Falar com a Target no WhatsApp"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#111114" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg></a>
+
+<script>
+(function(){
+  var ba=document.getElementById('ba'), r=document.getElementById('ba-range');
+  if(ba&&r){var set=function(v){ba.style.setProperty('--pos',v+'%');r.setAttribute('aria-valuetext',v+'% mostrando o antes');};r.addEventListener('input',function(){set(r.value);});set(r.value);}
+
+  var tg=document.getElementById('all-toggle'), all=document.getElementById('all');
+  tg.addEventListener('click',function(){var o=all.hidden;all.hidden=!o;tg.setAttribute('aria-expanded',String(o));tg.textContent=o?'Fechar lista de serviços':'Ver todos os serviços';});
+  var tabs=[].slice.call(document.querySelectorAll('.tabs [role=tab]'));
+  function sel(b,focus){tabs.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});if(focus)b.focus();}
+  tabs.forEach(function(b,i){b.addEventListener('click',function(){sel(b);});b.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();sel(tabs[(i+1)%tabs.length],1);}if(e.key==='ArrowLeft'){e.preventDefault();sel(tabs[(i-1+tabs.length)%tabs.length],1);}});});
+
+  /* Envio do formulário.
+     Para o e-mail chegar automaticamente, publique o site no seu domínio e cole aqui o endereço
+     de um serviço de formulários (ex.: Formspree ou Web3Forms) configurado para comercial@targetautospa.com.br. */
+  var FORM_ENDPOINT = "";
+  var EMAIL = "comercial@targetautospa.com.br";
+  var f=document.getElementById('form'), st=document.getElementById('f-status');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var nome=f.nome.value.trim(), email=f.email.value.trim(), tel=f.telefone.value.trim(), msg=f.mensagem.value.trim();
+    st.className='form-status';
+    if(!nome||!msg||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.className='form-status err';st.textContent='Preencha nome, um e-mail válido e a mensagem.';return;}
+    var body='Nome: '+nome+'\nE-mail: '+email+(tel?'\nTelefone: '+tel:'')+'\n\n'+msg;
+    if(FORM_ENDPOINT){
+      st.textContent='Enviando...';
+      fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({nome:nome,email:email,telefone:tel,mensagem:msg,_replyto:email,_subject:'Contato pelo site, '+nome})})
+        .then(function(res){if(!res.ok) throw 0; f.reset(); st.textContent='Mensagem enviada. Vamos responder no seu e-mail em breve.';})
+        .catch(function(){st.className='form-status err';st.textContent='Não foi possível enviar agora. Escreva para '+EMAIL+' ou chame no WhatsApp.';});
+    } else {
+      window.location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Contato pelo site, '+nome)+'&body='+encodeURIComponent(body);
+      st.textContent='Abrimos o seu aplicativo de e-mail com a mensagem pronta. Se ele não abriu, escreva para '+EMAIL+'.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
