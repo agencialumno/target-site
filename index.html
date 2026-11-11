@@ -659,10 +659,9 @@ form.msg button{border:0;cursor:pointer;justify-content:center}
   function sel(b,focus){tabs.forEach(function(x){var on=x===b;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});if(focus)b.focus();}
   tabs.forEach(function(b,i){b.addEventListener('click',function(){sel(b);});b.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();sel(tabs[(i+1)%tabs.length],1);}if(e.key==='ArrowLeft'){e.preventDefault();sel(tabs[(i-1+tabs.length)%tabs.length],1);}});});
 
-  /* Envio do formulário.
-     Para o e-mail chegar automaticamente, publique o site no seu domínio e cole aqui o endereço
-     de um serviço de formulários (ex.: Formspree ou Web3Forms) configurado para comercial@targetautospa.com.br. */
-  var FORM_ENDPOINT = "";
+  /* Envio do formulário via Web3Forms — e-mail cai direto em comercial@targetautospa.com.br. */
+  var FORM_ENDPOINT = "https://api.web3forms.com/submit";
+  var ACCESS_KEY = "079b1561-8484-43bb-a256-b07f15cd45f7";
   var EMAIL = "comercial@targetautospa.com.br";
   var f=document.getElementById('form'), st=document.getElementById('f-status');
   f.addEventListener('submit',function(e){
@@ -670,16 +669,10 @@ form.msg button{border:0;cursor:pointer;justify-content:center}
     var nome=f.nome.value.trim(), email=f.email.value.trim(), tel=f.telefone.value.trim(), msg=f.mensagem.value.trim();
     st.className='form-status';
     if(!nome||!msg||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){st.className='form-status err';st.textContent='Preencha nome, um e-mail válido e a mensagem.';return;}
-    var body='Nome: '+nome+'\nE-mail: '+email+(tel?'\nTelefone: '+tel:'')+'\n\n'+msg;
-    if(FORM_ENDPOINT){
-      st.textContent='Enviando...';
-      fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({nome:nome,email:email,telefone:tel,mensagem:msg,_replyto:email,_subject:'Contato pelo site, '+nome})})
-        .then(function(res){if(!res.ok) throw 0; f.reset(); st.textContent='Mensagem enviada. Vamos responder no seu e-mail em breve.';})
-        .catch(function(){st.className='form-status err';st.textContent='Não foi possível enviar agora. Escreva para '+EMAIL+' ou chame no WhatsApp.';});
-    } else {
-      window.location.href='mailto:'+EMAIL+'?subject='+encodeURIComponent('Contato pelo site, '+nome)+'&body='+encodeURIComponent(body);
-      st.textContent='Abrimos o seu aplicativo de e-mail com a mensagem pronta. Se ele não abriu, escreva para '+EMAIL+'.';
-    }
+    st.textContent='Enviando...';
+    fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:ACCESS_KEY,name:nome,email:email,telefone:tel,message:msg,subject:'Contato pelo site, '+nome,from_name:'Site Target Auto Spa'})})
+      .then(function(res){return res.json().then(function(data){if(!res.ok||!data.success) throw 0; f.reset(); st.textContent='Mensagem enviada. Vamos responder no seu e-mail em breve.';});})
+      .catch(function(){st.className='form-status err';st.textContent='Não foi possível enviar agora. Escreva para '+EMAIL+' ou chame no WhatsApp.';});
   });
 })();
 </script>
